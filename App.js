@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 import * as Location from 'expo-location';
 
 export default function App() {
- const [position, setPosition] = useState({
+  const [position, setPosition] = useState({
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
- });
+  });
 
- useEffect(() => {
+  useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -29,14 +29,30 @@ export default function App() {
         longitudeDelta: 0.0421,
       });
     })();
-}, []);
-  
-return (
+  }, []);
+  const onRegionChange = region => {
+    setPosition({
+      latitude: region.latitude,
+      longitude: region.longitude,
+      latitudeDelta: region.latitudeDelta,
+      longitudeDelta: region.longitudeDelta,
+    })
+  }
+
+  return (
     <View style={styles.container}>
-      <MapView 
+      <MapView
         style={styles.map}
-        initialRegion={position}
-        region={position}></MapView>
+        region={position}
+          onRegionChangeComplete={onRegionChange}>
+        <Marker
+          coordinate={{
+            latitude: position.latitude,
+            longitude: position.longitude
+          }}
+          tracksViewChanges={true}>
+        </Marker>
+      </MapView>
       <StatusBar style="auto" />
     </View>
   );
