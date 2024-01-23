@@ -30,6 +30,7 @@ export default function App() {
       });
     })();
   }, []);
+
   const onRegionChange = region => {
     setPosition({
       latitude: region.latitude,
@@ -37,7 +38,12 @@ export default function App() {
       latitudeDelta: region.latitudeDelta,
       longitudeDelta: region.longitudeDelta,
     })
-  }
+  };
+
+  const seeCoordinates = () => {
+    console.log('xxx latitude-->: ', position.latitude);
+    console.log('xxx longitude-->: ', position.longitude);
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +60,7 @@ export default function App() {
         </Marker>
       </MapView>
       <View style={styles.seeCoordinates}>
-        <Button title="See coordinates" />
+        <Button title="See coordinates" onPress={seeCoordinates}/>
       </View>
       <StatusBar style="auto" />
     </View>
