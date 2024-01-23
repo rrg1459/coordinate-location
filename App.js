@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 import MapView, { Marker } from 'react-native-maps';
 
@@ -44,7 +44,7 @@ export default function App() {
       <MapView
         style={styles.map}
         region={position}
-          onRegionChangeComplete={onRegionChange}>
+        onRegionChangeComplete={onRegionChange}>
         <Marker
           coordinate={{
             latitude: position.latitude,
@@ -53,6 +53,9 @@ export default function App() {
           tracksViewChanges={true}>
         </Marker>
       </MapView>
+      <View style={styles.seeCoordinates}>
+        <Button title="See coordinates" />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -69,4 +72,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  seeCoordinates: {
+    position: 'absolute',
+    top: '90%',
+    alignSelf: 'center',
+    width: '80%'
+  }
 });
